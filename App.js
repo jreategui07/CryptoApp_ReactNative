@@ -31,10 +31,10 @@ export default function App() {
         <Stack.Screen
           name="Jonathan Crypto"
           options={{
-            headerStyle: { backgroundColor: '#007BFF' },
+            headerStyle: { backgroundColor: '#3b5998', },
             headerTintColor: 'white',
             headerTitleAlign: 'center',
-            headerTitleStyle: { fontWeight: 'bold', fontSize: 18 },
+            headerTitleStyle: { fontWeight: 'bold', fontSize: 20 },
           }}
         >
           {() => (
@@ -42,7 +42,7 @@ export default function App() {
               screens={tabScreens}
               activeColor="tomato"
               inactiveColor="gray"
-              tabBarStyle={{ backgroundColor: '#f8f9fa' }}
+              tabBarStyle={{ backgroundColor: '#282c34', borderRadius: 15 }}
             />
           )}
         </Stack.Screen>
