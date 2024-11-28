@@ -8,6 +8,7 @@ import GenericTabNavigator from './UI/Components/GenericTabNavigator';
 // Views
 import HomeScreen from './View/HomeScreen';
 import FavouriteListScreen from './View/FavouriteListScreen';
+import CryptoDetailsScreen from './View/CryptoDetailsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,16 +26,20 @@ export default function App() {
     },
   ];
 
+  const headerOptions = {
+    headerStyle: { backgroundColor: '#3b5998', },
+    headerTintColor: 'white',
+    headerTitleAlign: 'center',
+    headerTitleStyle: { fontWeight: 'bold', fontSize: 20 },
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
           name="Jonathan Crypto"
           options={{
-            headerStyle: { backgroundColor: '#3b5998', },
-            headerTintColor: 'white',
-            headerTitleAlign: 'center',
-            headerTitleStyle: { fontWeight: 'bold', fontSize: 20 },
+            ...headerOptions
           }}
         >
           {() => (
@@ -46,6 +51,14 @@ export default function App() {
             />
           )}
         </Stack.Screen>
+        <Stack.Screen
+          name="CryptoDetails"
+          component={CryptoDetailsScreen}
+          options={{
+            title: 'Crypto Details', 
+            ...headerOptions
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

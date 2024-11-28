@@ -1,29 +1,94 @@
-import React from 'react';
-import { View, Button, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, FlatList, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 
 // View Models
 import CryptoViewModel from '../ViewModel/CryptoViewModel';
 
-const HomeScreen = () => {
-  const handleFetchCryptoList = async () => {
-    await CryptoViewModel.fetchCryptoList();
+const HomeScreen = ({ navigation }) => {
+  const [cryptoList, setCryptoList] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    setLoading(true);
+    const data = await CryptoViewModel.fetchCryptoList();
+    setCryptoList(data);
+    setLoading(false);
   };
 
-  const handleFetchCryptoDetails = async () => {
-    const id = 1;
-    await CryptoViewModel.fetchCryptoDetails(id);
+  const navigateToCryptoDetailsScreen = (crypto) => {
+    navigation.navigate('CryptoDetails', { cryptoId: crypto.id });
   };
+
+  const renderItem = ({ item }) => (
+    <TouchableOpacity
+      style={styles.itemContainer}
+      onPress={() => navigateToCryptoDetailsScreen(item)}
+    >
+      <Text style={styles.itemName}>{item.name}</Text>
+      <Text style={styles.itemSymbol}>{item.symbol}</Text>
+      <Text style={styles.itemPrice}>${item.price_usd}</Text>
+    </TouchableOpacity>
+  );
+
+  if (loading) {
+    return (
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator size="large" color="#007BFF" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
-      <Button title="Fetch Crypto List" onPress={handleFetchCryptoList} />
-      <Button title="Fetch Crypto Details" onPress={handleFetchCryptoDetails} />
+      <FlatList
+        data={cryptoList}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
+        contentContainerStyle={styles.listContainer}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: '#f8f9fa',
+  },
+  listContainer: {
+    paddingVertical: 10,
+  },
+  itemContainer: {
+    backgroundColor: '#fff',
+    padding: 15,
+    marginVertical: 5,
+    marginHorizontal: 10,
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  itemName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#007BFF',
+  },
+  itemSymbol: {
+    fontSize: 14,
+    color: '#6c757d',
+  },
+  itemPrice: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#28a745',
+  },
+  loaderContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
