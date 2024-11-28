@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator, Button } from 'react-native';
-
-// View Models
 import CryptoViewModel from '../ViewModel/CryptoViewModel';
 
 const CryptoDetailsScreen = ({ route }) => {
-  const { cryptoId } = route.params;
+  const { cryptoId, refreshFavorites } = route.params;
   const [cryptoDetails, setCryptoDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -18,12 +16,31 @@ const CryptoDetailsScreen = ({ route }) => {
     setLoading(true);
     const data = await CryptoViewModel.fetchCryptoDetails(cryptoId);
     setCryptoDetails(data);
+
+    const favorites = await CryptoViewModel.fetchFavorites();
+    setIsFavorite(favorites.some((fav) => fav.id === cryptoId));
+
     setLoading(false);
   };
 
-  const toggleFavorite = () => {
-    setIsFavorite((prevState) => !prevState);
-    console.log(`${cryptoDetails.name} ${isFavorite ? 'removed from' : 'added to'} favorites`);
+  const toggleFavorite = async () => {
+    if (isFavorite) {
+      await CryptoViewModel.removeFromFavorites(cryptoId);
+    } else {
+      const crypto = {
+        id: cryptoId,
+        name: cryptoDetails.name,
+        symbol: cryptoDetails.symbol,
+      };
+      await CryptoViewModel.addToFavorites(crypto);
+    }
+  
+    if (refreshFavorites) {
+      await refreshFavorites();
+    }
+  
+    const updatedFavorites = await CryptoViewModel.fetchFavorites();
+    setIsFavorite(updatedFavorites.some((fav) => fav.id === cryptoId));
   };
 
   if (loading) {
@@ -45,14 +62,14 @@ const CryptoDetailsScreen = ({ route }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{cryptoDetails.name}</Text>
-      <Text style={styles.subtitle}>{ cryptoDetails.symbol}</Text>
+      <Text style={styles.subtitle}>{cryptoDetails.symbol}</Text>
       <Text style={styles.detail}>Price: ${cryptoDetails.price_usd}</Text>
       <Text style={styles.detail}>Market Cap: ${cryptoDetails.market_cap_usd}</Text>
       <Text style={styles.detail}>24h Volume: ${cryptoDetails.volume24}</Text>
       <Button
-          title={isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
-          onPress={toggleFavorite}
-        />
+        title={isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
+        onPress={toggleFavorite}
+      />
     </View>
   );
 };

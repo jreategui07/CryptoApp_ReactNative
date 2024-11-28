@@ -6,7 +6,9 @@ import CryptoViewModel from '../ViewModel/CryptoViewModel';
 
 const HomeScreen = ({ navigation }) => {
   const [cryptoList, setCryptoList] = useState([]);
+  const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingFavorites, setLoadingFavorites] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -19,8 +21,20 @@ const HomeScreen = ({ navigation }) => {
     setLoading(false);
   };
 
+  const fetchFavorites = async () => {
+    setLoadingFavorites(true);
+    const data = await CryptoViewModel.fetchFavorites();
+    setFavorites(data);
+    setLoadingFavorites(false);
+  };
+
   const navigateToCryptoDetailsScreen = (crypto) => {
-    navigation.navigate('CryptoDetails', { cryptoId: crypto.id });
+    navigation.navigate('CryptoDetails', {
+      cryptoId: crypto.id,
+      cryptoName: crypto.name,
+      cryptoSymbol: crypto.symbol,
+      refreshFavorites: fetchFavorites
+    });
   };
 
   const renderItem = ({ item }) => (
@@ -44,6 +58,13 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      {
+        loadingFavorites && (
+          <View style={styles.loaderContainer}>
+            <ActivityIndicator size="small" color="#007BFF" />
+          </View>
+        )
+      }
       <FlatList
         data={cryptoList}
         renderItem={renderItem}

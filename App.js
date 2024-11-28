@@ -52,6 +52,14 @@ export default function App() {
           )}
         </Stack.Screen>
         <Stack.Screen
+          name="FavouriteList"
+          component={FavouriteListScreen}
+          options={{ 
+            title: 'Favorites', 
+            ...headerOptions
+            }}
+        />
+        <Stack.Screen
           name="CryptoDetails"
           component={CryptoDetailsScreen}
           options={{
