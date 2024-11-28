@@ -52,7 +52,7 @@ const FavouriteListScreen = ({ navigation }) => {
   if (favorites.length === 0) {
     return (
       <View style={styles.emptyContainer}>
-        <Text style={styles.emptyText}>No favorites found.</Text>
+        <Text style={styles.emptyText}>No currency found.</Text>
       </View>
     );
   }

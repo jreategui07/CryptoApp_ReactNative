@@ -20,7 +20,7 @@ export default function App() {
       icon: { active: 'home', inactive: 'home' },
     },
     {
-      name: 'Favourite List',
+      name: 'My Exchange',
       component: FavouriteListScreen,
       icon: { active: 'heart', inactive: 'heart-o' },
     },
