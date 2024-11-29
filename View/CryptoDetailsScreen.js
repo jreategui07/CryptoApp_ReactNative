@@ -27,12 +27,7 @@ const CryptoDetailsScreen = ({ route }) => {
     if (isFavorite) {
       await CryptoViewModel.removeFromFavorites(cryptoId);
     } else {
-      const crypto = {
-        id: cryptoId,
-        name: cryptoDetails.name,
-        symbol: cryptoDetails.symbol,
-      };
-      await CryptoViewModel.addToFavorites(crypto);
+      await CryptoViewModel.addToFavorites(cryptoDetails); // Saving all values of the crypto
     }
   
     if (refreshFavorites) {
@@ -63,9 +58,19 @@ const CryptoDetailsScreen = ({ route }) => {
     <View style={styles.container}>
       <Text style={styles.title}>{cryptoDetails.name}</Text>
       <Text style={styles.subtitle}>{cryptoDetails.symbol}</Text>
+
       <Text style={styles.detail}>Price: ${cryptoDetails.price_usd}</Text>
       <Text style={styles.detail}>Market Cap: ${cryptoDetails.market_cap_usd}</Text>
       <Text style={styles.detail}>24h Volume: ${cryptoDetails.volume24}</Text>
+      <Text style={styles.detail}>1h Change: {cryptoDetails.percent_change_1h}%</Text>
+      <Text style={styles.detail}>24h Change: {cryptoDetails.percent_change_24h}%</Text>
+      <Text style={styles.detail}>7d Change: {cryptoDetails.percent_change_7d}%</Text>
+      <Text style={styles.detail}>Price (BTC): {cryptoDetails.price_btc} BTC</Text>
+      <Text style={styles.detail}>Rank: {cryptoDetails.rank}</Text>
+      <Text style={styles.detail}>Circulating Supply: {cryptoDetails.csupply}</Text>
+      <Text style={styles.detail}>Total Supply: {cryptoDetails.tsupply}</Text>
+      <Text style={styles.detail}>Max Supply: {cryptoDetails.msupply ? cryptoDetails.msupply : "N/A"}</Text>
+
       <Button
         title={isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
         onPress={toggleFavorite}
