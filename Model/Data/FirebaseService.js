@@ -47,6 +47,23 @@ const FirebaseService = {
       return [];
     }
   },
+
+  removeAllFavorites: async () => {
+    try {
+      const collectionRef = collection(db, 'favorites');
+      const querySnapshot = await getDocs(collectionRef);
+
+      const deletePromises = querySnapshot.docs.map((docSnapshot) =>
+        deleteDoc(doc(db, 'favorites', docSnapshot.id))
+      );
+
+      await Promise.all(deletePromises);
+      console.log('All favorites removed successfully');
+    } catch (error) {
+      console.error('Error removing all favorites:', error);
+      throw error;
+    }
+  },
 };
 
 export default FirebaseService;

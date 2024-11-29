@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react';
-import { View, FlatList, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import React, { useCallback, useState, useLayoutEffect } from 'react';
+import { View, FlatList, Text, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
 // View Models
@@ -21,6 +21,35 @@ const FavouriteListScreen = ({ navigation }) => {
       fetchFavorites();
     }, [])
   );
+
+  const handleRemoveAll = async () => {
+    Alert.alert(
+      'Remove All Favorites',
+      'Are you sure you want to remove all favorites?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Remove All',
+          style: 'destructive',
+          onPress: async () => {
+            await CryptoViewModel.removeAllFavorites();
+            fetchFavorites(); // Refreshing the favorite list
+          },
+        },
+      ]
+    );
+  };
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () =>
+        favorites.length > 0 ? ( // Displaying "Remove All" button only is there are alements
+          <TouchableOpacity onPress={handleRemoveAll} style={styles.headerButton}>
+            <Text style={styles.headerButtonText}>Remove All</Text>
+          </TouchableOpacity>
+        ) : null, // Otherwise we don't display the button
+    });
+  }, [navigation, favorites]);
 
   const navigateToCryptoDetailsScreen = (crypto) => {
     navigation.navigate('CryptoDetails', {
@@ -111,6 +140,14 @@ const styles = StyleSheet.create({
   itemSymbol: {
     fontSize: 14,
     color: '#6c757d',
+  },
+  headerButton: {
+    marginRight: 15,
+  },
+  headerButtonText: {
+    color: 'red',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 

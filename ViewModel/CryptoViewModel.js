@@ -27,6 +27,15 @@ const CryptoViewModel = {
     console.log('Fetched Favorites:', favorites);
     return favorites;
   },
+
+  removeAllFavorites: async () => {
+    try {
+      await FirebaseService.removeAllFavorites();
+      console.log('All favorites removed');
+    } catch (error) {
+      console.error('Error removing all favorites:', error);
+    }
+  },
 };
 
 export default CryptoViewModel;

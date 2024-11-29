@@ -54,18 +54,10 @@ export default function App() {
         <Stack.Screen
           name="FavouriteList"
           component={FavouriteListScreen}
-          options={{ 
-            title: 'Favorites', 
-            ...headerOptions
-            }}
         />
         <Stack.Screen
           name="CryptoDetails"
           component={CryptoDetailsScreen}
-          options={{
-            title: 'Crypto Details', 
-            ...headerOptions
-          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
