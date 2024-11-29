@@ -65,8 +65,12 @@ const FavouriteListScreen = ({ navigation }) => {
       style={styles.itemContainer}
       onPress={() => navigateToCryptoDetailsScreen(item)}
     >
-      <Text style={styles.itemName}>{item.name}</Text>
-      <Text style={styles.itemSymbol}>{item.symbol}</Text>
+      <View style={{ flex: 1 }}>
+        <Text style={styles.itemName}>{item.name}</Text>
+        <Text style={styles.itemSymbol}>{item.symbol}</Text>
+        <Text style={styles.itemPrice}>${item.price_usd}</Text>
+      </View>
+      <Text style={styles.badge}>Rank: {item.rank}</Text>
     </TouchableOpacity>
   );
 
@@ -101,7 +105,7 @@ const FavouriteListScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#f1f5f9',
   },
   loaderContainer: {
     flex: 1,
@@ -112,42 +116,75 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 20,
   },
   emptyText: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#6c757d',
+    textAlign: 'center',
+    fontWeight: '600',
   },
   listContainer: {
     paddingVertical: 10,
   },
   itemContainer: {
-    backgroundColor: '#fff',
-    padding: 15,
-    marginVertical: 5,
-    marginHorizontal: 10,
-    borderRadius: 8,
+    backgroundColor: '#ffffff',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 15,
+    borderRadius: 10,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 3,
+    elevation: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   itemName: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
-    color: '#007BFF',
+    color: '#1c4e80',
   },
   itemSymbol: {
     fontSize: 14,
     color: '#6c757d',
+    fontStyle: 'italic',
+  },
+  itemPrice: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#16a34a',
+    marginTop: 5,
+  },
+  badge: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#16a34a',
+    backgroundColor: '#dcfce7',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 5,
+    textAlign: 'center',
+    overflow: 'hidden',
+    alignSelf: 'flex-start',
+    marginTop: 5,
   },
   headerButton: {
     marginRight: 15,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    backgroundColor: '#fde2e2',
+    borderColor: '#ef4444',
+    borderWidth: 1,
+    borderRadius: 5,
   },
   headerButtonText: {
-    color: 'red',
-    fontSize: 16,
+    color: '#b91c1c',
+    fontSize: 14,
     fontWeight: 'bold',
+    textAlign: 'center',
+    textTransform: 'uppercase',
   },
 });
 

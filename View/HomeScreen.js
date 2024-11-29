@@ -37,16 +37,20 @@ const HomeScreen = ({ navigation }) => {
     });
   };
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.itemContainer}
-      onPress={() => navigateToCryptoDetailsScreen(item)}
-    >
-      <Text style={styles.itemName}>{item.name}</Text>
-      <Text style={styles.itemSymbol}>{item.symbol}</Text>
-      <Text style={styles.itemPrice}>${item.price_usd}</Text>
-    </TouchableOpacity>
-  );
+  const renderItem = ({ item }) => {
+    return (
+      <TouchableOpacity
+        style={styles.itemContainer}
+        onPress={() => navigateToCryptoDetailsScreen(item)}
+      >
+        <View style={{ flex: 1 }}>
+          <Text style={styles.itemName}>{item.name}</Text>
+          <Text style={styles.itemSymbol}>{item.symbol}</Text>
+          <Text style={styles.itemPrice}>${item.price_usd}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
   if (loading) {
     return (
@@ -78,36 +82,41 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#f1f5f9',
   },
   listContainer: {
     paddingVertical: 10,
+    paddingHorizontal: 15,
   },
   itemContainer: {
-    backgroundColor: '#fff',
-    padding: 15,
-    marginVertical: 5,
-    marginHorizontal: 10,
-    borderRadius: 8,
+    backgroundColor: '#ffffff',
+    padding: 20,
+    marginVertical: 8,
+    borderRadius: 10,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 3,
+    elevation: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   itemName: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
-    color: '#007BFF',
+    color: '#1c4e80',
+    marginBottom: 5,
   },
   itemSymbol: {
     fontSize: 14,
-    color: '#6c757d',
+    color: '#6b7280',
+    fontStyle: 'italic',
   },
   itemPrice: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#28a745',
+    fontWeight: 'bold',
+    color: '#16a34a',
+    marginTop: 5,
   },
   loaderContainer: {
     flex: 1,
