@@ -47,7 +47,7 @@ export default function App() {
               screens={tabScreens}
               activeColor="tomato"
               inactiveColor="gray"
-              tabBarStyle={{ backgroundColor: '#282c34', borderRadius: 15 }}
+              tabBarStyle={{ backgroundColor: '#282c34', borderTopLeftRadius: 15, borderTopRightRadius: 15 }}
             />
           )}
         </Stack.Screen>
